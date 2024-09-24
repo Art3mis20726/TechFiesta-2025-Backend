@@ -1,55 +1,44 @@
-import mongoose from "mongoose";
-import { asyncHandler } from "../utils/AsyncHandler.utils.js";
-import {User} from "../models/user.models.js";
+import { User } from "../models/user.models.js";
 import ApiError from "../utils/ApiError.utils.js";
-import { uploadoncloudinary } from "../utils/Cloudnary.utils.js";
 import { ApiResponse } from "../utils/ApiResponse.utils.js";
+import { asyncHandler } from "../utils/AsyncHandler.utils.js";
 
-const registerUser=asyncHandler(async(req,res)=>{
-    const{fullName,userName,email,password}=req.body;
-    if(fullName===""){
-        throw new ApiError(400,"Full name is required!")
+const registerForm=asyncHandler(async(req,res)=>{
+    
+    const {team_name,problem_id,college,leader_name,email,mobile,place,utr}=req.body
+    if(!team_name){
+        throw new ApiError(400,"Team name is required")
     }
-    if(userName===""){
-        throw new ApiError(400,"User name name is required!")
+    if(!problem_id){
+        throw new ApiError(400,"Problem id is required")
     }
-    if(email===""){
-        throw new ApiError(400,"Email is required!")
+    if(!college){
+        throw new ApiError(400,"College is required")
     }
-    if(password===""){
-        throw new ApiError(400,"Password is required!")
+    if(!leader_name){
+        throw new ApiError(400,"Leader name is required")
     }
-    const existeduser=await User.findOne({$or:[{email},{userName}]})
-    if(existeduser){
-        throw new ApiError(409,"User is already Registered")
+    if(!email){
+        throw new ApiError(400,"Email is required")
     }
-
-
-    const avatarLocalPath=req.files?.avatar[0]?.path;
-    const coverImageLocalPath=req.files?.coverImage[0]?.path;
-
-
-
-
-    if(!avatarLocalPath|| !coverImageLocalPath){
-        throw new ApiError(400,"Avatar and CoverImage files are required")
+    if(!mobile){
+        throw new ApiError(400,"Mobile is required")
     }
-    const avatar=await uploadoncloudinary(avatarLocalPath);
-    const coverImage=await uploadoncloudinary(coverImageLocalPath);
-    if(!avatar.url||!coverImage.url){
-        throw new ApiError(400,"Error in uploading on cloudinary!")
+    if(!place){
+        throw new ApiError(400,"Place is required")
     }
-    const user=await User.create({fullName,userName,password,email,avatar:avatar.url,coverImage:coverImage.url})
-    const userCreated =await User.findById(user._id).select("-password -refreshToken")
-    if(!userCreated){
-        throw new ApiError(500,"Something went wrong while creating the user")
+    if(!utr){
+        throw new ApiError(400,"Utr is required")
     }
-    return res.
-    status(200).
-    json(new ApiResponse(200,userCreated,"User Registered Successfully"))
-
-
+    const existedTeamName=await User.findOne({team_name})
+    if(existedTeamName){
+        throw new ApiError(400,"Team name already exists")
+    }
+    const NewTeam=await User.create({team_name,problem_id,college,leader_name,email,mobile,place,utr})
+    if(!NewTeam){
+        throw new ApiError(400,"Error in creating the team")
+    }
+    return res.status(200).json(new ApiResponse(200,NewTeam,"Registration Successfull"))
 
 })
-
-export{registerUser}
+export {registerForm}
