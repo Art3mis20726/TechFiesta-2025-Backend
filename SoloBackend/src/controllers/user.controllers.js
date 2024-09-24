@@ -49,4 +49,12 @@ const registerForm=asyncHandler(async(req,res)=>{
     return res.status(200).json(new ApiResponse(200,NewTeam,"Registration Successfull"))
 
 })
-export {registerForm}
+const getTeams=asyncHandler(async(req,res)=>{
+    const teams=await Team.find()
+    if(!teams){
+        throw new ApiError(404,"No teams found")
+        }
+    return res.status(200).json(new ApiResponse(200,teams,"Teams fetched successfully")
+    )
+})
+export {registerForm,getTeams}
