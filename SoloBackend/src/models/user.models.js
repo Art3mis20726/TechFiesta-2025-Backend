@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = mongoose.Schema({
+const TeamSchema = mongoose.Schema({
     team_name: {
         type: String,
         required: true,
@@ -36,4 +36,4 @@ const UserSchema = mongoose.Schema({
     }
 }, { timestamps: true });
 
-export const User = mongoose.model("User", UserSchema);
+export const Team = mongoose.model("Team", TeamSchema);

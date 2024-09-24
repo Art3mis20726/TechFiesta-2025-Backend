@@ -1,4 +1,4 @@
-import { User } from "../models/user.models.js";
+import { Team } from "../models/user.models.js";
 import ApiError from "../utils/ApiError.utils.js";
 import { ApiResponse } from "../utils/ApiResponse.utils.js";
 import { asyncHandler } from "../utils/AsyncHandler.utils.js";
@@ -30,11 +30,19 @@ const registerForm=asyncHandler(async(req,res)=>{
     if(!utr){
         throw new ApiError(400,"Utr is required")
     }
-    const existedTeamName=await User.findOne({team_name})
+    const existedTeamName=await Team.findOne({team_name})
     if(existedTeamName){
         throw new ApiError(400,"Team name already exists")
     }
-    const NewTeam=await User.create({team_name,problem_id,college,leader_name,email,mobile,place,utr})
+    const NewTeam=await Team.create({
+        team_name:team_name
+        ,problem_id:problem_id
+        ,college:college
+        ,leader_name:leader_name
+        ,email:email
+        ,mobile:mobile
+        ,place:place
+        ,utr:utr})
     if(!NewTeam){
         throw new ApiError(400,"Error in creating the team")
     }
