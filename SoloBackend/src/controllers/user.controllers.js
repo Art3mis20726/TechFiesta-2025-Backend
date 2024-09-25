@@ -57,4 +57,15 @@ const getTeams=asyncHandler(async(req,res)=>{
     return res.status(200).json(new ApiResponse(200,teams,"Teams fetched successfully")
     )
 })
-export {registerForm,getTeams}
+const teamExits=asyncHandler(async(req,res)=>{
+    const teamName=req.params.team_name
+    if(!teamExits){
+        throw new ApiError(404,"Team not found")
+    }
+    const teamExits=await Team.findOne({team_name:team_name})
+    if(teamExits){
+        return res.status(200).json(new ApiResponse(200,true,"Team name already exists"))
+    }
+    return res.status(200).json(new ApiResponse(200,false,"Team name does not exists"))
+})
+export {registerForm,getTeams,teamExits}
