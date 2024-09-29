@@ -68,4 +68,16 @@ const teamExits=asyncHandler(async(req,res)=>{
     }
     return res.status(200).json(new ApiResponse(200,false,"Team name does not exists"))
 })
-export {registerForm,getTeams,teamExits}
+const checkUtrExists=asyncHandler(async(req,res)=>{
+    const utr=req.params.utr
+    if(!utr){
+        throw new ApiError(404,"Utr not found")
+    }
+    const utrTrimmed=utr.trim();
+    const checkUtrExists=await Team.findOne({utr:utrTrimmed})
+    if(checkUtrExists){
+        return res.status(200).json(new ApiResponse(200,true,"UTR already exists"))
+    }
+    return res.status(200).json(new ApiResponse(200,false,"UTR is unique"))
+})
+export {registerForm,getTeams,teamExits,checkUtrExists}
