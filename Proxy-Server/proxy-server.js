@@ -2,7 +2,7 @@ const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
-const proxyTarget = 'https://tech-fiesta.onrender.com';
+const proxyTarget = 'https://techfiesta-backend.onrender.com';
 
 app.use('/', createProxyMiddleware({
   target: proxyTarget,
