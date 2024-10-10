@@ -4,7 +4,7 @@ import cookieParser  from "cookie-parser";
 import router from "./routes/user.routes.js";
 const app=express()
 app.use(cors({
-    origin:["https://tech-fiesta.vercel.app"],
+    origin:process.env.CORS,
     credentials:true
 }))
 app.use(express.json({
