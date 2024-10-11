@@ -80,4 +80,7 @@ const checkUtrExists=asyncHandler(async(req,res)=>{
     }
     return res.status(200).json(new ApiResponse(200,false,"UTR is unique"))
 })
-export {registerForm,getTeams,teamExits,checkUtrExists}
+const sendOK=asyncHandler(async(req,res)=>{
+    return res.status(200).json(new ApiResponse(200,"OK"))
+})
+export {registerForm,getTeams,teamExits,checkUtrExists,sendOK}

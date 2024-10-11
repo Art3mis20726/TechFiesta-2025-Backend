@@ -1,7 +1,7 @@
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
-
+const cors=require('cors')
 const proxyTarget = 'https://techfiesta-backend.onrender.com';
 const restrictedUrls = ['/api/v1/users/pangs'];
 app.use((req, res, next) => {
@@ -10,11 +10,10 @@ app.use((req, res, next) => {
   }
   next();
 });
-import { cors } from "cors";
-app.use(app.use(cors({
-  origin:['http://localhost:5173'],
+app.use(cors({
+  origin:['http://localhost:5173,https://techfiesta.pict.edu,https://tech-fiesta.vercel.app'],
   credentials:true
-})))
+}))
 app.use('/', createProxyMiddleware({
   target: proxyTarget,
   changeOrigin: true,
