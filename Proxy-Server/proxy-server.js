@@ -11,7 +11,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors({
-  origin:['http://localhost:5173,https://techfiesta.pict.edu,https://tech-fiesta.vercel.app'],
+  origin:['http://localhost:5173','https://techfiesta.pict.edu','https://tech-fiesta.vercel.app'],
   credentials:true
 }))
 app.use('/', createProxyMiddleware({
