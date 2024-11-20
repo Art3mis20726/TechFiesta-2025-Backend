@@ -2,7 +2,7 @@ const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 const cors=require('cors')
-const proxyTarget = 'https://techfiesta-backend.onrender.com';
+const proxyTarget = 'https://techfiesta-backend-mci7.onrender.com';
 const restrictedUrls = ['/api/v1/users/pangs'];
 app.use((req, res, next) => {
   if (restrictedUrls.includes(req.path)) {
